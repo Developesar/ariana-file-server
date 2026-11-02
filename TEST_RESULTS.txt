@@ -3,8 +3,8 @@ Test date: 2026-09-13
 Developer: Mohamad Milad (mohamadmilad)
 
 Automated suite:
-  python -m unittest -v test_engine test_gui test_translator test_direct_dorna
-  Result: 31 tests passed
+  python -m unittest -v test_engine test_gui test_translator test_direct_dorna test_ui_text
+  Result: 35 tests passed
 
 Direct Dorna 2 smoke test:
   Engine: llama-cpp-python 0.3.35 / llama.cpp CUDA 12.4
