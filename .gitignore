@@ -6,3 +6,11 @@ models/quickmt-fa-en/
 *.log
 .runtime-download/
 models/
+.env
+.env.*
+.idea/
+.vscode/
+build/
+dist/
+*.spec
+backups/

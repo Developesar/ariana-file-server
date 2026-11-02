@@ -20,8 +20,9 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title(rtl('آریانا فایل سرور | ترجمه مستقیم Dorna 2 | توسعه‌دهنده: Mohamad Milad'))
-        self.geometry('1180x780')
-        self.minsize(900, 650)
+        self.geometry('1240x850')
+        self.minsize(1024, 720)
+        self.configure(fg_color='#080D18')
         self.snapshot = None
         self.busy = False
         self.events = queue.Queue()
@@ -38,10 +39,31 @@ class App(ctk.CTk):
         self.buttons = []
         self.ui_font = ctk.CTkFont(family='Tahoma', size=13)
         self.ui_font_bold = ctk.CTkFont(family='Tahoma', size=13, weight='bold')
+        self.title_font = ctk.CTkFont(family='Tahoma', size=24, weight='bold')
+        self.small_font = ctk.CTkFont(family='Tahoma', size=11)
         self.columnconfigure(0, weight=1)
-        self.rowconfigure(4, weight=1)
-        header = ctk.CTkFrame(self)
-        header.grid(row=0, column=0, sticky='ew', padx=12, pady=8)
+        self.rowconfigure(5, weight=1)
+
+        hero = ctk.CTkFrame(self, height=86, corner_radius=18, fg_color='#111A2D',
+                            border_width=1, border_color='#24324A')
+        hero.grid(row=0, column=0, sticky='ew', padx=16, pady=(14, 8))
+        hero.grid_propagate(False)
+        hero.columnconfigure(1, weight=1)
+        brand = ctk.CTkFrame(hero, width=58, height=58, corner_radius=16, fg_color='#2563EB')
+        brand.grid(row=0, column=0, rowspan=2, padx=(14, 12), pady=14)
+        brand.grid_propagate(False)
+        ctk.CTkLabel(brand, text='A', font=ctk.CTkFont(family='Segoe UI', size=30, weight='bold'),
+                     text_color='white').place(relx=.5, rely=.5, anchor='center')
+        ctk.CTkLabel(hero, text=rtl('آریانا فایل سرور'), font=self.title_font,
+                     text_color='#F8FAFC', anchor='e').grid(row=0, column=1, sticky='se', pady=(13, 0))
+        ctk.CTkLabel(hero, text=rtl('سامان‌دهی امن فایل‌سرورها؛ تبدیل گروهی نام‌های فارسی به انگلیسی با هوش مصنوعی محلی'),
+                     font=self.small_font, text_color='#94A3B8', anchor='e').grid(row=1, column=1, sticky='ne', pady=(0, 13))
+        ctk.CTkLabel(hero, text='DORNA 2  •  LOCAL AI', font=ctk.CTkFont(family='Segoe UI', size=11, weight='bold'),
+                     text_color='#93C5FD', fg_color='#172554', corner_radius=12,
+                     padx=14, pady=7).grid(row=0, column=2, rowspan=2, padx=16)
+
+        header = ctk.CTkFrame(self, corner_radius=16, fg_color='#111827', border_width=1, border_color='#1F2A40')
+        header.grid(row=1, column=0, sticky='ew', padx=16, pady=8)
         header.columnconfigure(1, weight=1)
         ctk.CTkLabel(header, text=rtl('Root / مسیر روت'), font=self.ui_font, anchor='e').grid(row=0, column=0, padx=8, sticky='e')
         self.root_entry = ctk.CTkEntry(header, textvariable=self.root_path, font=self.ui_font)
@@ -60,30 +82,40 @@ class App(ctk.CTk):
                                          placeholder_text=rtl('مثلاً معماری و پروژه‌های گردشگری؛ برای Dorna و Ollama'),
                                          font=self.ui_font, justify='right')
         self.context_entry.grid(row=3, column=1, columnspan=2, sticky='ew', padx=8, pady=5)
-        toolbar = ctk.CTkFrame(self)
-        toolbar.grid(row=1, column=0, sticky='ew', padx=12)
-        for i, (label, action) in enumerate([
-            ('Scan / پیمایش', self.scan), ('Preview / ترجمه', self.preview),
-            ('Backup / پشتیبان', self.backup), ('Rename / اجرا', self.rename),
-            ('Restore / بازگردانی', self.restore)]):
-            self.button(toolbar, label, action).grid(row=0, column=i, padx=5, pady=8)
-        options = ctk.CTkFrame(self)
-        options.grid(row=2, column=0, sticky='ew', padx=12, pady=8)
+        toolbar = ctk.CTkFrame(self, corner_radius=16, fg_color='#111827', border_width=1, border_color='#1F2A40')
+        toolbar.grid(row=2, column=0, sticky='ew', padx=16, pady=8)
+        for i in range(5):
+            toolbar.columnconfigure(i, weight=1)
+        actions = [
+            ('۱  پیمایش', self.scan, '#334155'), ('۲  ترجمه و پیش‌نمایش', self.preview, '#2563EB'),
+            ('۳  تهیه پشتیبان', self.backup, '#7C3AED'), ('۴  اجرای تغییر نام', self.rename, '#059669'),
+            ('بازگردانی', self.restore, '#B45309')]
+        for i, (label, action, color) in enumerate(actions):
+            self.button(toolbar, label, action, color=color, width=170).grid(row=0, column=i, sticky='ew', padx=6, pady=10)
+        options = ctk.CTkFrame(self, corner_radius=16, fg_color='#111827', border_width=1, border_color='#1F2A40')
+        options.grid(row=3, column=0, sticky='ew', padx=16, pady=8)
         self.menu = ctk.CTkOptionMenu(options, width=315, values=['Dorna 2 — مستقیم GPU + CPU/RAM', 'Ollama — مدل محلی', 'QuickMT — ترجمه هوشمند آفلاین', 'واژه‌نامه محلی', 'Argos — مدل آفلاین'], variable=self.backend, font=self.ui_font, dropdown_font=self.ui_font)
         self.menu.pack(side='left', padx=8, pady=8)
         self.button(options, 'نصب مدل محلی Argos', self.install_model).pack(side='left', padx=8)
         self.button(options, 'ویرایش نام انتخاب‌شده', self.edit).pack(side='left', padx=8)
         self.button(options, 'بازکردن پشتیبان‌ها', self.open_backups).pack(side='left', padx=8)
-        ctk.CTkLabel(self, text=rtl('ستون پیشنهاد با دوبارکلیک قابل ویرایش است. ترجمه خودکار نیازمند بررسی است؛ پسوند لاتین فایل حفظ می‌شود.'),
-                     font=self.ui_font, anchor='e', justify='right').grid(row=3, column=0, padx=12, sticky='e')
+        ctk.CTkLabel(self, text=rtl('راهنما: برای اصلاح نام، روی پیشنهاد دوبار کلیک کنید. پسوند فایل همیشه حفظ می‌شود.'),
+                     font=self.small_font, text_color='#94A3B8', anchor='e', justify='right').grid(row=4, column=0, padx=22, sticky='e')
         container = ttk.Frame(self)
-        container.grid(row=4, column=0, sticky='nsew', padx=12, pady=8)
+        container.grid(row=5, column=0, sticky='nsew', padx=16, pady=8)
         container.rowconfigure(0, weight=1)
         container.columnconfigure(0, weight=1)
         self.tree = ttk.Treeview(container, columns=('relative', 'type', 'name', 'proposed', 'status'), show='headings', selectmode='browse')
         style = ttk.Style(self)
+        style.theme_use('clam')
         style.configure('Treeview', font=('Tahoma', 10), rowheight=27)
         style.configure('Treeview.Heading', font=('Tahoma', 10, 'bold'))
+        style.configure('Treeview', background='#0F172A', fieldbackground='#0F172A', foreground='#E2E8F0',
+                        borderwidth=0, relief='flat')
+        style.configure('Treeview.Heading', background='#1E293B', foreground='#CBD5E1',
+                        borderwidth=0, relief='flat', padding=(8, 9))
+        style.map('Treeview', background=[('selected', '#1D4ED8')], foreground=[('selected', '#FFFFFF')])
+        style.map('Treeview.Heading', background=[('active', '#263449')])
         for col, title, width in [('relative', 'مسیر نسبی', 320), ('type', 'نوع', 70), ('name', 'نام اصلی', 180), ('proposed', 'نام پیشنهادی', 220), ('status', 'وضعیت', 220)]:
             self.tree.heading(col, text=rtl(title))
             anchor = 'w' if col in ('relative', 'proposed') else 'e'
@@ -97,24 +129,41 @@ class App(ctk.CTk):
         self.tree.bind('<Double-1>', lambda e: self.edit())
         self.check = ctk.CTkCheckBox(self, text=rtl('پیشنهادها و نام‌های بدون ترجمه را بررسی کرده‌ام؛ فقط تغییرات نمایش‌داده‌شده اجرا شوند.'),
                                     variable=self.reviewed, font=self.ui_font)
-        self.check.grid(row=5, column=0, sticky='e', padx=12, pady=5)
+        self.check.configure(fg_color='#10B981', hover_color='#059669', border_color='#475569')
+        self.check.grid(row=6, column=0, sticky='e', padx=18, pady=(4, 2))
         self.progress = ctk.CTkProgressBar(self)
-        self.progress.grid(row=6, column=0, sticky='ew', padx=12, pady=5)
+        self.progress.configure(height=7, corner_radius=5, progress_color='#3B82F6', fg_color='#1E293B')
+        self.progress.grid(row=7, column=0, sticky='ew', padx=18, pady=5)
         self.progress.set(0)
         ctk.CTkLabel(self, textvariable=self.status_display, font=self.ui_font, anchor='e',
-                     justify='right', wraplength=1100).grid(row=7, column=0, sticky='ew', padx=12)
-        self.log = ctk.CTkTextbox(self, height=110, font=('Tahoma', 11))
-        self.log.grid(row=8, column=0, sticky='ew', padx=12, pady=8)
+                     text_color='#93C5FD', justify='right', wraplength=1160).grid(row=8, column=0, sticky='ew', padx=18)
+        log_card = ctk.CTkFrame(self, corner_radius=14, fg_color='#0B1220', border_width=1, border_color='#1F2A40')
+        log_card.grid(row=9, column=0, sticky='ew', padx=16, pady=8)
+        log_card.columnconfigure(0, weight=1)
+        ctk.CTkLabel(log_card, text=rtl('گزارش فعالیت'), font=self.small_font,
+                     text_color='#64748B', anchor='e').grid(row=0, column=0, sticky='e', padx=12, pady=(5, 0))
+        self.log = ctk.CTkTextbox(log_card, height=72, font=('Tahoma', 11), fg_color='transparent',
+                                  border_width=0, text_color='#CBD5E1')
+        self.log.grid(row=1, column=0, sticky='ew', padx=4, pady=(0, 4))
         self.log.configure(state='disabled')
         ctk.CTkLabel(self, text=rtl('توسعه‌دهنده: Mohamad Milad | GitHub: mohamadmilad1'),
-                     font=self.ui_font, text_color=('gray40', 'gray65')).grid(row=9, column=0, pady=(0, 6))
+                     font=self.small_font, text_color='#64748B').grid(row=10, column=0, pady=(0, 8))
         self.protocol('WM_DELETE_WINDOW', self.close)
         self.after(100, self.poll)
 
-    def button(self, parent, text, command):
-        button = ctk.CTkButton(parent, text=rtl(text), font=self.ui_font_bold, command=command, width=140)
+    def button(self, parent, text, command, color='#1D4ED8', width=140):
+        button = ctk.CTkButton(parent, text=rtl(text), font=self.ui_font_bold, command=command,
+                               width=width, height=38, corner_radius=10, fg_color=color,
+                               hover_color=self.hover_color(color))
         self.buttons.append(button)
         return button
+
+    @staticmethod
+    def hover_color(color):
+        return {
+            '#334155': '#475569', '#2563EB': '#1D4ED8', '#7C3AED': '#6D28D9',
+            '#059669': '#047857', '#B45309': '#92400E', '#1D4ED8': '#1E40AF'
+        }.get(color, '#1E40AF')
 
     def pick_root(self):
         selected = filedialog.askdirectory()
