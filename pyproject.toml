@@ -1,0 +1,11 @@
+[project]
+name = "ariana-file-server-persian-to-english"
+version = "3.0.0"
+description = "Safe Persian-to-English file renamer with direct local Dorna 2 inference"
+requires-python = ">=3.11,<3.13"
+authors = [
+  { name = "Mohamad Milad", email = "72808296+mohamadmilad1@users.noreply.github.com" },
+]
+
+[project.urls]
+Repository = "https://github.com/mohamadmilad1/ariana-file-server-persian-to-english"

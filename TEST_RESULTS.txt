@@ -1,0 +1,26 @@
+Safe English Renamer / Ariana File Server
+Test date: 2026-09-13
+Developer: Mohamad Milad (mohamadmilad)
+
+Automated suite:
+  python -m unittest -v test_engine test_gui test_translator test_direct_dorna
+  Result: 31 tests passed
+
+Direct Dorna 2 smoke test:
+  Engine: llama-cpp-python 0.3.35 / llama.cpp CUDA 12.4
+  GPU: NVIDIA GeForce RTX 4050 Laptop, 6140 MiB VRAM
+  CPU: Intel Core i7-13700H
+  Configuration: 32/32 model layers on GPU when VRAM was free
+  Input: گزارش بازدید
+  Output: Site Visit Report
+  Model load: approximately 10-14 seconds (cold start)
+  Translation: approximately 2.6 seconds after load
+
+Compatibility repair verified:
+  Official CUDA wheel plus official AVX2 CPU plugin
+  NVIDIA CUDA/cuBLAS runtime installed in the project virtual environment
+  No Ollama process, API, model store or DLL was used by the direct smoke test
+
+Safety tests cover backup/restore, collisions, reserved names, path limits,
+source drift, locked files, transaction interruption, GUI workflow, protected
+numbers/codes, malformed model output and direct Dorna output validation.

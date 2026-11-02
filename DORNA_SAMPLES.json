@@ -1,0 +1,63 @@
+{
+  "model": "hf.co/aeranginkaman/Dorna2-Llama3.1-8B-Instruct-Q4_K_M-GGUF:Q4_K_M",
+  "context": "معماری، بازدید پروژه، گردشگری و مستندات اداری",
+  "seconds": 8.22,
+  "samples": [
+    {
+      "original": "اجاره منزل.docx",
+      "result": [
+        "House Rental.docx",
+        "پیشنهاد مدل — نام/معنی مبهم؛ بررسی کنید"
+      ]
+    },
+    {
+      "original": "استعلام",
+      "result": [
+        "inquiry",
+        "پیشنهاد مدل — نام/معنی مبهم؛ بررسی کنید"
+      ]
+    },
+    {
+      "original": "بازدید زیرساخت",
+      "result": [
+        "Infrastructure Visit",
+        "پیشنهاد مدل — نام/معنی مبهم؛ بررسی کنید"
+      ]
+    },
+    {
+      "original": "جانمایی مسکن.pdf",
+      "result": [
+        "Johny's Housing.pdf",
+        "پیشنهاد مدل — نام/معنی مبهم؛ بررسی کنید"
+      ]
+    },
+    {
+      "original": "شرح سفر 0628.docx",
+      "result": [
+        "Summary of Trip 0628.docx",
+        "پیشنهاد مدل — نام/معنی مبهم؛ بررسی کنید"
+      ]
+    },
+    {
+      "original": "لیست کارها.xlsx",
+      "result": [
+        "List of Tasks.xlsx",
+        "پیشنهاد مدل — نام/معنی مبهم؛ بررسی کنید"
+      ]
+    },
+    {
+      "original": "پوشش گیاهی.docx",
+      "result": [
+        "Greenery.docx",
+        "پیشنهاد مدل — نام/معنی مبهم؛ بررسی کنید"
+      ]
+    },
+    {
+      "original": "کارخانه سیار مداد.pdf",
+      "result": [
+        "Portable Pencil Factory.pdf",
+        "پیشنهاد مدل — نام/معنی مبهم؛ بررسی کنید"
+      ]
+    }
+  ]
+}

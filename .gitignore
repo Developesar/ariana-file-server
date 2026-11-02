@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+models/dorna2/*.gguf
+models/quickmt-fa-en/
+*.log
+.runtime-download/
+models/
