@@ -13,6 +13,7 @@ import uuid
 
 VERSION = 1
 RESERVED = re.compile(r'^(CON|PRN|AUX|NUL|CLOCK\$|CONIN\$|CONOUT\$|COM[1-9¹²³]|LPT[1-9¹²³])$', re.I)
+OFFICE_LOCK_EXTENSIONS = {'.doc', '.docx', '.docm', '.xls', '.xlsx', '.xlsm', '.ppt', '.pptx', '.pptm'}
 
 
 def utc():
@@ -41,6 +42,12 @@ def valid_name(name):
 
 def is_reparse(info):
     return stat.S_ISLNK(info.st_mode) or bool(getattr(info, 'st_file_attributes', 0) & 0x400)
+
+
+def is_office_lock(name):
+    """Office owner/lock files are ephemeral and must never be renamed."""
+    path = Path(name)
+    return path.name.startswith('~$') and path.suffix.casefold() in OFFICE_LOCK_EXTENSIONS
 
 
 def identity(path):
@@ -86,6 +93,8 @@ def scan(root, report=lambda *a: None):
         folder = stack.pop()
         with os.scandir(folder) as entries:
             for entry in entries:
+                if entry.is_file(follow_symlinks=False) and is_office_lock(entry.name):
+                    continue
                 # Windows DirEntry.stat may return st_ino=0; lstat queries the actual file ID.
                 s = os.lstat(entry.path)
                 path = Path(entry.path)
@@ -125,7 +134,14 @@ def validate(snapshot):
             changed.append(r)
         bucket = names.setdefault(r['parent'], {})
         if key(new) in bucket:
-            raise ValueError(f'برخورد نام: {r["parent"]} / {new}')
+            other = bucket[key(new)]
+            raise ValueError(
+                f'دو آیتم در یک پوشه نام پیشنهادی یکسان دارند:\n'
+                f'{other["original_name"]}  →  {other["proposed_name"]}\n'
+                f'{r["original_name"]}  →  {new}\n\n'
+                f'پوشه: {r["parent"]}\n'
+                f'یکی از نام‌های پیشنهادی را با دوبارکلیک ویرایش کنید.'
+            )
         bucket[key(new)] = r
     for r in changed:
         destination = Path(r['parent']) / r['proposed_name']

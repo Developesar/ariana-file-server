@@ -62,6 +62,14 @@ class SafetyTests(unittest.TestCase):
             with self.subTest(name=name), self.assertRaises(ValueError):
                 engine.valid_name(name)
 
+    def test_office_lock_files_are_ignored(self):
+        (self.root / 'لیست کارها.xlsx').write_bytes(b'workbook')
+        (self.root / '~$لیست کارها.xlsx').write_bytes(b'office-lock')
+        snapshot = engine.scan(self.root)
+        names = {row['original_name'] for row in snapshot['rows']}
+        self.assertIn('لیست کارها.xlsx', names)
+        self.assertNotIn('~$لیست کارها.xlsx', names)
+
     def test_duplicate_proposals_and_swap(self):
         for name in ['a', 'b']:
             (self.root / name).touch()
