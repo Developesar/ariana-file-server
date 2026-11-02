@@ -1,6 +1,6 @@
 Safe English Renamer / Ariana File Server
 Test date: 2026-09-13
-Developer: Mohamad Milad (mohamadmilad)
+Developer: Mohamad Milad (Developesar)
 
 Automated suite:
   python -m unittest -v test_engine test_gui test_translator test_direct_dorna test_ui_text

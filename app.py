@@ -146,7 +146,7 @@ class App(ctk.CTk):
                                   border_width=0, text_color='#CBD5E1')
         self.log.grid(row=1, column=0, sticky='ew', padx=4, pady=(0, 4))
         self.log.configure(state='disabled')
-        ctk.CTkLabel(self, text=rtl('توسعه‌دهنده: Mohamad Milad | GitHub: mohamadmilad1'),
+        ctk.CTkLabel(self, text=rtl('توسعه‌دهنده: Mohamad Milad | GitHub: Developesar'),
                      font=self.small_font, text_color='#64748B').grid(row=10, column=0, pady=(0, 8))
         self.protocol('WM_DELETE_WINDOW', self.close)
         self.after(100, self.poll)

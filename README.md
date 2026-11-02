@@ -2,7 +2,7 @@
 
 > Safe, local and AI-assisted Persian-to-English file renaming for Windows file servers.
 
-**توسعه‌دهنده: [Mohamad Milad](https://github.com/mohamadmilad1)**
+**توسعه‌دهنده: [Mohamad Milad](https://github.com/Developesar)**
 
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white)
@@ -96,7 +96,7 @@ flowchart LR
 ## Developer
 
 Designed and developed by **Mohamad Milad**<br>
-GitHub: [@mohamadmilad1](https://github.com/mohamadmilad1)
+GitHub: [@Developesar](https://github.com/Developesar)
 
 ## License
 
